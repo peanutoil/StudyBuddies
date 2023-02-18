@@ -54,7 +54,7 @@ Home
                     <p class="card-text">{{signUp["description"]}}</p>
                     <h5 class="card-title">{{signUp["location"]}}, {{signUp["studytime"]|format_time}}, {{signUp["date"]|format_date}}</h5>
                     <p class="card-text">Posted by {{signUp["name"]}}</p>
-                    <a href="#" class="btn btn-danger">Not going</a>
+                    <a href="/optout/{{signUp['_id']}}" class="btn btn-danger">Not going</a>
                 </div>
             </div>
         </div>

@@ -175,6 +175,11 @@ def signup(id):
     flash("Signup successful!")
     return redirect("/home")
 
+@fl.route("/optout/<id>")
+def optout(id):
+    mongo.db.posts.update_one({'_id':ObjectId(id)},{'$pull':{'signups':session["info"]["email"]}})
+    flash("You have opted out of this study session.")
+    return redirect("/home")
 @fl.route("/delete/<id>")
 def delRoute(id):
     # ids are not strings they are ObjectId('')
