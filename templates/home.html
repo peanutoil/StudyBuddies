@@ -46,4 +46,18 @@
         <input class="btn btn-default" type="submit" value="Search">
     </form>
 </div>
+<div class = "container">
+    {% for post in allPosts %}
+    <div class="well" style="margin-top: 20px">
+    <div class="card">
+  <h5 class="card-header">Subject: Title</h5>
+        <div class = "card-body">
+        <h3 class = "card-title">X-Y people</h3>
+        <p class = "card-text">Location</p><p class = "card-text"> hh:ss mm/dd/yy</p>
+            </div>
+    <a href="#" class="btn btn-primary">Sign Up!</a>
+  </div>
+    </div>
+    {% endfor %}
+</div>
 {% endblock %}

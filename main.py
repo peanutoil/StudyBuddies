@@ -66,8 +66,8 @@ def user():
     if "info" not in session:
         flash("Error: You must log in before accessing this page.")
         return redirect("/login")
-
-    return render_template("home.html")
+    allData = mongo.db.posts.find({'user': session['info']['email']}).sort('time', -1)
+    return render_template("home.html", allPosts = allData)
 
 
 @fl.route("/view", methods=["GET", "POST", "SEARCH"])
