@@ -74,8 +74,13 @@ def home():
         flash("Error: You must log in before accessing this page.")
         return redirect("/login")
     if request.method == "GET":
+        # all except mine and my sign ups
         allPosts = mongo.db.posts.find().sort('time', -1)
+
+        # only mine
         myPosts = mongo.db.posts.find().sort('time', -1)
+
+        # only others that I've signed up for
         mySignUps = mongo.db.posts.find().sort('time', -1)
         
         return render_template("home.html", allPosts=allPosts, myPosts=myPosts, mySignUps=mySignUps)

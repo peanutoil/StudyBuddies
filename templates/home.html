@@ -44,17 +44,17 @@ Home
     </form>
 </div>
 <div class="container">
-    <h1>All Posts</h1>
+    <h1>My Sign-ups</h1>
     <div class="row">
-        {% for eachPost in allPosts %}
+        {% for signUp in mySignUps %}
         <div class="col-sm-6 mb-3 mb-sm-0">
             <div class="card">
                 <div class="card-body">
-                    <h2 class="card-title">{{post["subject"]}}: {{post["title"]}}</h2>
-                    <p class="card-text">{{post["description"]}}</p>
-                    <h5 class="card-title">{{post["location"]}}, {{post["studytime"]|format_time}}, {{post["date"]|format_date}}</h5>
-                    <p class="card-text">Posted by {{post["name"]}}</p>
-                    <a href="#" class="btn btn-primary">Sign Up!</a>
+                    <h2 class="card-title">{{signUp["subject"]}}: {{signUp["title"]}}</h2>
+                    <p class="card-text">{{signUp["description"]}}</p>
+                    <h5 class="card-title">{{signUp["location"]}}, {{signUp["studytime"]|format_time}}, {{signUp["date"]|format_date}}</h5>
+                    <p class="card-text">Posted by {{signUp["name"]}}</p>
+                    <a href="#" class="btn btn-danger">Delete</a>
                 </div>
             </div>
         </div>
@@ -68,9 +68,11 @@ Home
         <div class="col-sm-6 mb-3 mb-sm-0">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">My title treatment</h5>
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                    <h2 class="card-title">{{myPost["subject"]}}: {{myPost["title"]}}</h2>
+                    <p class="card-text">{{myPost["description"]}}</p>
+                    <h5 class="card-title">{{myPost["location"]}}, {{myPost["studytime"]|format_time}}, {{myPost["date"]|format_date}}</h5>
+                    <p class="card-text">Posted by {{myPost["name"]}}</p>
+                    <a href="#" class="btn btn-danger">Delete</a>
                 </div>
             </div>
         </div>
@@ -78,15 +80,17 @@ Home
     </div>
 </div>
 <div class="container">
-    <h1>My Sign-ups</h1>
+    <h1>All Posts</h1>
     <div class="row">
-        {% for myPost in myPosts %}
+        {% for post in allPosts %}
         <div class="col-sm-6 mb-3 mb-sm-0">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">My title treatment</h5>
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                    <h2 class="card-title">{{post["subject"]}}: {{post["title"]}}</h2>
+                    <p class="card-text">{{post["description"]}}</p>
+                    <h5 class="card-title">{{post["location"]}}, {{post["studytime"]|format_time}}, {{post["date"]|format_date}}</h5>
+                    <p class="card-text">Posted by {{post["name"]}}</p>
+                    <a href="#" class="btn btn-primary">Sign Up!</a>
                 </div>
             </div>
         </div>
