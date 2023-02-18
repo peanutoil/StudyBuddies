@@ -28,21 +28,21 @@ Create a study group
         <form method="POST">
             <div class="mb-3">
                 <label class="form-label">Title</label>
-                <input type="text" class="form-control" name="title" placeholder="" />
+                <input type="text" class="form-control" name="title" placeholder="" required />
             </div>
             <!-- get date and time on the same line as well-->
             <div class="mb-3">
                 <label class="form-label">Date</label>
-                <input type="date" class="form-control" name="date"/>
+                <input type="date" class="form-control" name="date" required/>
             </div>
                         <div class="mb-3">
                 <label class="form-label">Time</label>
-                <input type="time" class="form-control" name="time"/>
+                <input type="time" class="form-control" name="time" required/>
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Course</label>
-                <input type="text" class="form-control" name="subject" placeholder="" />
+                <input type="text" class="form-control" name="subject" placeholder="" required />
             </div>
             <div class="mb-3">
                 <label class="form-label">Description</label>
@@ -50,14 +50,14 @@ Create a study group
             </div>
             <div class="mb-3">
                 <label class="form-label">Location</label>
-                <input type="text" class="form-control" name="location" placeholder="e.g., Bobst Library 5th Floor" />
+                <input type="text" class="form-control" name="location" placeholder="e.g., Bobst Library 5th Floor" required />
             </div>
             <!--get these two on the same line later-->
             <div class="mb-3">
                 <label class="form-label">Min Capacity</label>
-                <input type="text" class="form-control" name="minimum" placeholder="e.g., 5" />
+                <input type="text" class="form-control" name="minimum" placeholder="e.g., 5" required />
                 <label class="form-label">Max Capacity</label>
-                <input type="text" class="form-control" name="maximum" placeholder="e.g., 8"/>
+                <input type="text" class="form-control" name="maximum" placeholder="e.g., 8" required />
             </div>
             <input type="submit" class="form-control btn btn-light" value="Create" />
         </form>
