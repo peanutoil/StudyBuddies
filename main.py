@@ -176,9 +176,9 @@ def delRoute(id):
 @fl.route("/signup/<id>")
 def signup(id):
     mongo.db.posts.update_one( {"_id":ObjectId(id)},{"$push":{'signups':session["info"]["email"]}})
+    flash("Signup successful!")
     return redirect("/home")
 
-@fl.route("/logout")
 @fl.route("/logout")
 def out():
     session.clear()
