@@ -10,6 +10,15 @@ fl.config["SECRET_KEY"] = "RANDOMkey"
 fl.config['MONGO_URI'] = "mongodb://localhost:27017/study-db"
 mongo = PyMongo(fl)
 
+@fl.template_filter()
+def format_date(value):
+    value = datetime.strptime(value,"%Y-%m-%d").date()
+    return value.strftime('%m/%d/%y')
+@fl.template_filter()
+def format_time(value):
+    value = datetime.strptime(value,"%H:%M").time()
+    return value.strftime('%I:%M %p')
+
 
 @fl.route("/static/<path:path>")
 def static_dir(path):
@@ -117,7 +126,7 @@ def create():
         for item in request.form:
             title = request.form["title"]
             date = request.form["date"]
-            time = request.form["time"]
+            studytime = request.form["time"]
             subject = request.form["subject"]
             location = request.form["location"]
             description = request.form["description"]
@@ -127,11 +136,12 @@ def create():
         entry = {
             "title": title,
             "date": date,
-            "time": time,
+            "studytime": studytime,
             "subject": subject,
             "location": location,
             "description": description,
             "user": session["info"]["email"],
+            "name": session["info"]["firstName"] + " "+ session["info"]["lastName"],
             "time": datetime.utcnow(),
             "min-capacity": minimum,
             "max-capacity": maximum,
