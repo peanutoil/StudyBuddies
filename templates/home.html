@@ -1,11 +1,14 @@
 {% extends "base.html" %}
-{% block title %}Home{% endblock %}
+
+{% block title %}
+Home
+{% endblock %}
+
 {% block scripts %}
-{{super()}}
 {{ moment.include_moment() }}
 {% endblock %}
+
 {% block content %}
-{{ super() }}
 <div class="jumbotron">
     <div class="container">
         <div class="row">
@@ -13,7 +16,7 @@
                 <h1>{{session["info"]["firstName"]}} {{session["info"]["lastName"]}}</h1>
             </div>
             <div class="col-md-6 text-right" style="margin-top: 25px">
-                <a href="/logout" class="btn btn-default">Log Out</a>
+                <a href="/logout" class="btn btn-light">Log Out</a>
             </div>
         </div>
     </div>
@@ -34,24 +37,25 @@
 </div>
 <div class="container">
     <form class="form-group" method="POST">
-        <a href="/create" class="btn btn-default btn-lg">Create Group</a>
+        <a href="/create" class="btn btn-light btn-lg">Create Group</a>
         <!--get this button to the right side-->
         <input type="text" placeholder="Search.." name="search">
-        <input class="btn btn-default" type="submit" value="Search">
+        <input class="btn btn-light" type="submit" value="Search">
     </form>
 </div>
-<div class = "container">
-    {% for post in allPosts %}
-    <div class="well" style="margin-top: 20px">
-    <div class="card">
-  <h5 class="card-header">Subject: Title</h5>
-        <div class = "card-body">
-        <h3 class = "card-title">X-Y people</h3>
-        <p class = "card-text">Location</p><p class = "card-text"> hh:ss mm/dd/yy</p>
+<div class="container">
+    <div class="row">
+        {% for post in allPosts %}
+        <div class="col-sm-6 mb-3 mb-sm-0">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Special title treatment</h5>
+                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
             </div>
-    <a href="#" class="btn btn-primary">Sign Up!</a>
-  </div>
+        </div>
+        {% endfor %}
     </div>
-    {% endfor %}
 </div>
 {% endblock %}

@@ -1,14 +1,10 @@
 from bson import ObjectId
 from flask import *
-from flask_bootstrap import Bootstrap
 from flask_pymongo import PyMongo
 from flask_moment import Moment
 from datetime import datetime
 
 fl = Flask("study")
-
-Bootstrap(fl)
-
 moment = Moment(fl)
 fl.config["SECRET_KEY"] = "RANDOMkey"
 fl.config['MONGO_URI'] = "mongodb://localhost:27017/study-db"
@@ -68,8 +64,8 @@ def user():
     if "info" not in session:
         flash("Error: You must log in before accessing this page.")
         return redirect("/login")
-    allData = mongo.db.posts.find({'user': session['info']['email']}).sort('time', -1)
-    return render_template("home.html", allPosts = allData)
+    allData = mongo.db.posts.find().sort('time', -1)
+    return render_template("home.html", allPosts=allData)
 
 
 @fl.route("/view", methods=["GET", "POST", "SEARCH"])

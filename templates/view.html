@@ -1,7 +1,9 @@
 {% extends "base.html" %}
-{% block title %}Posts{% endblock %}
+{% block title %}
+Posts
+{% endblock %}
+
 {% block content %}
-{{ super() }}
 <div class="jumbotron">
     <div class="container">
         <h1>Posts</h1>
@@ -11,10 +13,10 @@
     <form method="POST">
         <div class="container">
             <input type="text" placeholder="Search.." name="search">
-            <input class="btn btn-default" type="submit" value="Search">
+            <input class="btn btn-light" type="submit" value="Search">
             <div class="row">
                 <div class="col-md-4 col-md-offset-4 text-center" style="margin-top: 20px; margin-bottom: 20px;">
-                    <input class="btn btn-default" type="submit" value="Back">
+                    <input class="btn btn-light" type="submit" value="Back">
                 </div>
             </div>
         </div>

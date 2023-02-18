@@ -1,7 +1,9 @@
 {% extends "base.html" %}
-{% block title %}Create a study group{% endblock %}
+{% block title %}
+Create a study group
+{% endblock %}
+
 {% block content %}
-{{ super() }}
 <div class="jumbotron">
     <div class="container">
         <h1>Create a study group</h1>
@@ -57,10 +59,9 @@
                 <label class="form-label">Max Capacity</label>
                 <input type="text" class="form-control" name="maximum" placeholder="e.g., 8"/>
             </div>
-
-            <input type="submit" class="form-control btn btn-default" value="Create" />
+            <input type="submit" class="form-control btn btn-light" value="Create" />
         </form>
-        <a href="/" class="btn btn-default">Go Back</a>
+        <a href="/" class="btn btn-light">Go Back</a>
     </div>
 </div>
 {% endblock %}
