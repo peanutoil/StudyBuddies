@@ -1,24 +1,7 @@
 {% extends "bootstrap/base.html" %}
-{% block title %} {% endblock %}
 {% block styles %}
 {{super()}}
-<link href="https://fonts.googleapis.com/css2?family=Baloo+Tamma+2&display=swap" rel="stylesheet">
-<style>
-    body {
-        font-family: 'Baloo Tamma 2', cursive;
-    }
-
-    .footer {
-        position: fixed;
-        left: 0;
-        bottom: 0;
-        height: 50px;
-        background-image: url('https://99designs-blog.imgix.net/blog/wp-content/uploads/2018/12/Gradient_builder_2.jpg');
-        width: 100%;
-        color: black;
-        margin-top: 200px;
-    }
-</style>
+<link href="{{url_for('static', filename='styles/base.css')}}" rel="stylesheet" />
 {% endblock %}
 {% block content %}
 <div class="footer">
