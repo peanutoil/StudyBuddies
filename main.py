@@ -179,6 +179,7 @@ def signup(id):
     return redirect("/home")
 
 @fl.route("/logout")
+@fl.route("/logout")
 def out():
     session.clear()
     flash("You have been logged out.")
