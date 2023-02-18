@@ -86,7 +86,9 @@ def home():
         myPosts = mongo.db.posts.find({'user': session['info']['email']}).sort('time', -1)
 
         # only others that I've signed up for
-        mySignUps = mongo.db.posts.find().sort('time', -1)
+        query = {"signups": {"$in": [session['info']['email']]}}
+
+        mySignUps = mongo.db.posts.find(query).sort('time', -1)
         
         return render_template("home.html", allPosts=allPosts, myPosts=myPosts, mySignUps=mySignUps)
 
