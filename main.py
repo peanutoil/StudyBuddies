@@ -29,7 +29,7 @@ def static_dir(path):
 def register():
     if "info" in session:
         flash("You are already logged in.")
-        return redirect("/user")
+        return redirect("/home")
     if request.method == "GET":
         return render_template("register.html")
     elif request.method == "POST":
@@ -51,7 +51,7 @@ def register():
 def login():
     if "info" in session:
         flash("You are already logged in.")
-        return redirect("/user")
+        return redirect("/home")
     if request.method == "GET":
         return render_template("login.html")
     elif request.method == "POST":
@@ -65,7 +65,7 @@ def login():
         else:
             session["info"] = {'firstName': exist['firstName'], 'lastName': exist['lastName'],
                                'email': exist['email'], 'time': datetime.utcnow()}
-            return redirect("/user")
+            return redirect("/home")
 
 
 @fl.route("/home", methods=["GET", "POST"])
@@ -107,7 +107,7 @@ def view():
                 searchData = searching(search)
                 return redirect("/viewSearch")
             else:
-                return redirect("/user")
+                return redirect("/home")
 
 
 def searching(search):
@@ -165,7 +165,7 @@ def create():
 
         mongo.db.posts.insert_one(entry)
 
-        return redirect("/user")
+        return redirect("/home")
 
 
 @fl.route("/delete/<id>")
@@ -175,7 +175,7 @@ def delRoute(id):
     flash("Deleted")
     delItem = mongo.db.posts.find_one({'_id': ObjectId(id)})
     mongo.db.posts.delete_one(delItem)
-    return redirect("/user")
+    return redirect("/home")
 
 
 @fl.route("/logout")
