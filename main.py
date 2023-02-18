@@ -76,13 +76,6 @@ def home():
     if request.method == "GET":
         myPostsQuery = {'user': session['info']['email']}
         signUpQuery = {'signups': {'$in': [ session['info']['email'] ]}}
-        #allQuery = { '$and': [
-        #    { '$nor': [ myPostsQuery ] },
-        #    { '$nor': [ signUpQuery ] }
-        #] }
-
-        # all except mine and my sign ups
-        # allPosts = mongo.db.posts.find(allQuery).sort('time', -1)
         allPosts = list(mongo.db.posts.find().sort('time', -1))
         myPosts = list(mongo.db.posts.find(myPostsQuery).sort('time', -1))
         mySignUps = list(mongo.db.posts.find(signUpQuery).sort('time', -1))
@@ -97,18 +90,21 @@ def home():
             if int(post["max-capacity"]) < len(post["signups"]):
                 continue
             openPosts.append(post)
-
-        # only mine
-
-        # only others that I've signed up for
-        
         return render_template("home.html", allPosts=openPosts, myPosts=myPosts, mySignUps=mySignUps)
+    elif request.method == "POST":
+        global searchData
+        for item in request.form:
+            if request.form['search'] != "":
+                search = request.form['search']
+                searchData = searching(search)
+                return redirect("/viewSearch")
+            else:
+                return redirect("/user")
 
 
 @fl.route("/view", methods=["GET", "POST", "SEARCH"])
 def view():
-    allData = mongo.db.posts.find(
-        {'user': session['info']['email']}).sort('time', -1)
+
     if request.method == "GET":
         return render_template("view.html", allPosts=allData)
     elif request.method == "POST":
@@ -121,27 +117,44 @@ def view():
             else:
                 return redirect("/home")
 
-
 def searching(search):
-    allData = mongo.db.posts.find(
-        {'user': session['info']['email']}).sort('time', -1)
+    myPostsQuery = {'user': session['info']['email']}
+    signUpQuery = {'signups': {'$in': [session['info']['email']]}}
+    allPosts = list(mongo.db.posts.find().sort('time', -1))
+    myPosts = list(mongo.db.posts.find(myPostsQuery).sort('time', -1))
+    mySignUps = list(mongo.db.posts.find(signUpQuery).sort('time', -1))
+
+    allData = []
+
+    for post in allPosts:
+        if post in myPosts:
+            continue
+        if post in mySignUps:
+            continue
+        if int(post["max-capacity"]) < len(post["signups"]):
+            continue
+        allData.append(post)
+
     newdata = []
     for data in allData:
         data['title'] = data['title'].lower()
+        data['description'] = data['description'].lower()
         newdata.append(data)
     searchResults = []
     for data in newdata:
-        if data['title'] == search.lower():
+        if search.lower() in data['title']:
+            searchResults.append(data)
+        if search.lower() in data['description']:
             searchResults.append(data)
     return searchResults
 
 
-@fl.route("/viewsearch", methods=["GET", "POST"])
+@fl.route("/viewSearch", methods=["GET", "POST"])
 def viewSearch():
     if request.method == "GET":
         return render_template("viewsearch.html", allSearches=searchData)
     if request.method == "POST":
-        return redirect("/view")
+        return redirect("/home")
 
 
 @fl.route("/create", methods=["GET", "POST"])
