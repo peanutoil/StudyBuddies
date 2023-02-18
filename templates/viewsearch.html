@@ -3,34 +3,31 @@
 {% block content %}
 {{ super() }}
 
-<body>
-    <div class="jumbotron"
-        style="background-image: url('https://99designs-blog.imgix.net/blog/wp-content/uploads/2018/12/Gradient_builder_2.jpg')">
-        <div class="container">
-            <h1>Search</h1>
-        </div>
+<div class="jumbotron">
+    <div class="container">
+        <h1>Search</h1>
     </div>
-    <div>
-        <form method="POST">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-4 col-md-offset-4 text-center" style="margin-top: 20px; margin-bottom: 20px;">
-                        <input class="btn btn-default" type="submit" value="View All">
-                    </div>
+</div>
+<div>
+    <form method="POST">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-md-offset-4 text-center" style="margin-top: 20px; margin-bottom: 20px;">
+                    <input class="btn btn-default" type="submit" value="View All">
                 </div>
             </div>
-            <div class="container" style="display: flex; flex-direction: row; flex-wrap: wrap">
-                {% for search in allSearches %}
-                <div style="border: 2px solid black; margin: 10px; padding: 10px">
-                    <h3>{{search['title']}}</h3>
-                    <img src="{{url_for('static', filename = search['filename'])}}"
-                        alt="{{search['title']}} image not found">
-                    <a href="/delete/{{search['_id']}}" class="btn btn-danger">Delete</a>
-                </div>
-                {% else %}
-                <p>No Results</p>
-                {% endfor %}
-        </form>
-    </div>
-</body>
+        </div>
+        <div class="container" style="display: flex; flex-direction: row; flex-wrap: wrap">
+            {% for search in allSearches %}
+            <div style="border: 2px solid black; margin: 10px; padding: 10px">
+                <h3>{{search['title']}}</h3>
+                <img src="{{url_for('static', filename = search['filename'])}}"
+                    alt="{{search['title']}} image not found">
+                <a href="/delete/{{search['_id']}}" class="btn btn-danger">Delete</a>
+            </div>
+            {% else %}
+            <p>No Results</p>
+            {% endfor %}
+    </form>
+</div>
 {% endblock %}

@@ -6,7 +6,9 @@ from flask_moment import Moment
 from datetime import datetime
 
 fl = Flask("study")
+
 Bootstrap(fl)
+
 moment = Moment(fl)
 fl.config["SECRET_KEY"] = "RANDOMkey"
 fl.config['MONGO_URI'] = "mongodb://localhost:27017/study-db"
@@ -101,7 +103,7 @@ def searching(search):
     return searchResults
 
 
-@fl.route("/viewSearch", methods=["GET", "POST"])
+@fl.route("/viewsearch", methods=["GET", "POST"])
 def viewSearch():
     if request.method == "GET":
         return render_template("viewsearch.html", allSearches=searchData)
@@ -109,18 +111,30 @@ def viewSearch():
         return redirect("/view")
 
 
-@fl.route("/upload", methods=["GET", "POST"])
-def upload():
+@fl.route("/create", methods=["GET", "POST"])
+def create():
     if request.method == "GET":
-        return render_template("upload.html")
+        return render_template("create.html")
     elif request.method == "POST":
-        flash("Successfully uploaded!")
+        flash("Successfully created a post!")
+
         for item in request.form:
-            title = request.form['title']
-            filename = request.form['filename']
-        entry = {"title": title, "filename": filename,
-                 "user": session["info"]["email"], "time": datetime.utcnow()}
+            title = request.form["title"]
+            subject = request.form["subject"]
+            location = request.form["location"]
+            description = request.form["description"]
+
+        entry = {
+            "title": title,
+            "subject": subject,
+            "location": location,
+            "description": description,
+            "user": session["info"]["email"],
+            "time": datetime.utcnow()
+        }
+
         mongo.db.posts.insert_one(entry)
+
         return redirect("/user")
 
 

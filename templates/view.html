@@ -2,38 +2,33 @@
 {% block title %}Posts{% endblock %}
 {% block content %}
 {{ super() }}
-
-<body>
-    <div class="jumbotron"
-        style="background-image: url('https://99designs-blog.imgix.net/blog/wp-content/uploads/2018/12/Gradient_builder_2.jpg')">
+<div class="jumbotron">
+    <div class="container">
+        <h1>Posts</h1>
+    </div>
+</div>
+<div>
+    <form method="POST">
         <div class="container">
-            <h1>Posts</h1>
+            <input type="text" placeholder="Search.." name="search">
+            <input class="btn btn-default" type="submit" value="Search">
+            <div class="row">
+                <div class="col-md-4 col-md-offset-4 text-center" style="margin-top: 20px; margin-bottom: 20px;">
+                    <input class="btn btn-default" type="submit" value="Back">
+                </div>
+            </div>
         </div>
-    </div>
-    <div>
-        <form method="POST">
-            <div class="container">
-                <input type="text" placeholder="Search.." name="search">
-                <input class="btn btn-default" type="submit" value="Search">
-                <div class="row">
-                    <div class="col-md-4 col-md-offset-4 text-center" style="margin-top: 20px; margin-bottom: 20px;">
-                        <input class="btn btn-default" type="submit" value="Back">
-                    </div>
-                </div>
+        <div class="container" style="display: flex; flex-direction: row; flex-wrap: wrap">
+            {% for post in allPosts %}
+            <div style="border: 2px solid black; margin: 10px; padding: 10px">
+                <h3>{{post['title']}}</h3>
+                <img src="{{url_for('static', filename = post['filename'])}}" alt="{{post['title']}} image not found">
+                <a href="/delete/{{post['_id']}}" class="btn btn-danger">Delete</a>
             </div>
-            <div class="container" style="display: flex; flex-direction: row; flex-wrap: wrap">
-                {% for post in allPosts %}
-                <div style="border: 2px solid black; margin: 10px; padding: 10px">
-                    <h3>{{post['title']}}</h3>
-                    <img src="{{url_for('static', filename = post['filename'])}}"
-                        alt="{{post['title']}} image not found">
-                    <a href="/delete/{{post['_id']}}" class="btn btn-danger">Delete</a>
-                </div>
-                {% else %}
-                <p>No Posts</p>
-                {% endfor %}
-            </div>
-        </form>
-    </div>
-</body>
+            {% else %}
+            <p>No Posts</p>
+            {% endfor %}
+        </div>
+    </form>
+</div>
 {% endblock %}

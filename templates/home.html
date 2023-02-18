@@ -6,8 +6,7 @@
 {% endblock %}
 {% block content %}
 {{ super() }}
-<div class="jumbotron"
-    style="background-image: url('https://99designs-blog.imgix.net/blog/wp-content/uploads/2018/12/Gradient_builder_2.jpg')">
+<div class="jumbotron">
     <div class="container">
         <div class="row">
             <div class="col-md-6">
@@ -33,14 +32,9 @@
         </div>
     </div>
 </div>
-<style>
-    .form-control {
-        margin-bottom: 15px;
-    }
-</style>
 <div class="container">
     <form class="form-group" method="POST">
-        <a href="/upload" class="btn btn-default btn-lg">Create Group</a>
+        <a href="/create" class="btn btn-default btn-lg">Create Group</a>
         <!--get this button to the right side-->
         <input type="text" placeholder="Search.." name="search">
         <input class="btn btn-default" type="submit" value="Search">
