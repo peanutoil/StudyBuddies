@@ -74,23 +74,28 @@ def home():
         flash("Error: You must log in before accessing this page.")
         return redirect("/login")
     if request.method == "GET":
+        myPostsQuery = {'user': session['info']['email']}
+        signUpQuery = {'signups': {'$in': [ session['info']['email'] ]}}
+        allQuery = { '$and': [ 
+            { '$nor': [ myPostsQuery ] },
+            { '$nor': [ signUpQuery ] }
+        ] }
+
         # all except mine and my sign ups
-        allPosts = mongo.db.posts.find({ 'user': {
-            '$not': {
-                '$eq': session['info']['email']
-            }
-        }
-        }).sort('time', -1)
+        allPosts = mongo.db.posts.find(allQuery).sort('time', -1)
+        openPosts = []
+
+        for post in allPosts:
+            if post['max-capacity'] < len(post['signups']):
+                openPosts.append(post)
 
         # only mine
-        myPosts = mongo.db.posts.find({'user': session['info']['email']}).sort('time', -1)
+        myPosts = mongo.db.posts.find(myPostsQuery).sort('time', -1)
 
         # only others that I've signed up for
-        query = {"signups": {"$in": [session['info']['email']]}}
-
-        mySignUps = mongo.db.posts.find(query).sort('time', -1)
+        mySignUps = mongo.db.posts.find(signUpQuery).sort('time', -1)
         
-        return render_template("home.html", allPosts=allPosts, myPosts=myPosts, mySignUps=mySignUps)
+        return render_template("home.html", allPosts=openPosts, myPosts=myPosts, mySignUps=mySignUps)
 
 
 @fl.route("/view", methods=["GET", "POST", "SEARCH"])
