@@ -90,7 +90,7 @@ Home
                     <p class="card-text">{{post["description"]}}</p>
                     <h5 class="card-title">{{post["location"]}}, {{post["studytime"]|format_time}}, {{post["date"]|format_date}}</h5>
                     <p class="card-text">Posted by {{post["name"]}}</p>
-                    <a href="#" class="btn btn-primary">Sign Up!</a>
+                    <a href="/signup/{{post['_id']}}" class="btn btn-primary">Sign Up!</a>
                 </div>
             </div>
         </div>

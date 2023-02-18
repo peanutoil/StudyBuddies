@@ -29,7 +29,7 @@ def static_dir(path):
 def register():
     if "info" in session:
         flash("You are already logged in.")
-        return redirect("/user")
+        return redirect("/home")
     if request.method == "GET":
         return render_template("register.html")
     elif request.method == "POST":
@@ -51,7 +51,7 @@ def register():
 def login():
     if "info" in session:
         flash("You are already logged in.")
-        return redirect("/user")
+        return redirect("/home")
     if request.method == "GET":
         return render_template("login.html")
     elif request.method == "POST":
@@ -65,7 +65,7 @@ def login():
         else:
             session["info"] = {'firstName': exist['firstName'], 'lastName': exist['lastName'],
                                'email': exist['email'], 'time': datetime.utcnow()}
-            return redirect("/user")
+            return redirect("/home")
 
 
 @fl.route("/home", methods=["GET", "POST"])
@@ -78,7 +78,8 @@ def home():
         allPosts = mongo.db.posts.find().sort('time', -1)
 
         # only mine
-        myPosts = mongo.db.posts.find().sort('time', -1)
+        myPosts = mongo.db.posts.find(
+            {'user': session['info']['email']}).sort('time', -1)
 
         # only others that I've signed up for
         mySignUps = mongo.db.posts.find().sort('time', -1)
@@ -100,7 +101,7 @@ def view():
                 searchData = searching(search)
                 return redirect("/viewSearch")
             else:
-                return redirect("/user")
+                return redirect("/home")
 
 
 def searching(search):
@@ -141,6 +142,7 @@ def create():
             description = request.form["description"]
             minimum = request.form["minimum"]
             maximum = request.form["maximum"]
+            signups = []
 
         entry = {
             "title": title,
@@ -154,11 +156,12 @@ def create():
             "time": datetime.utcnow(),
             "min-capacity": minimum,
             "max-capacity": maximum,
+            "signups": signups
         }
 
         mongo.db.posts.insert_one(entry)
 
-        return redirect("/user")
+        return redirect("/home")
 
 
 @fl.route("/delete/<id>")
@@ -168,8 +171,12 @@ def delRoute(id):
     flash("Deleted")
     delItem = mongo.db.posts.find_one({'_id': ObjectId(id)})
     mongo.db.posts.delete_one(delItem)
-    return redirect("/user")
+    return redirect("/home")
 
+@fl.route("/signup/<id>")
+def signup(id):
+    mongo.db.posts.update_one( {"_id":ObjectId(id)},{"$push":{'signups':session["info"]["email"]}})
+    return redirect("/home")
 
 @fl.route("/logout")
 def out():
