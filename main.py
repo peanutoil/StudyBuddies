@@ -87,45 +87,6 @@ def home():
         return render_template("home.html", allPosts=allPosts, myPosts=myPosts, mySignUps=mySignUps)
 
 
-@fl.route("/view", methods=["GET", "POST", "SEARCH"])
-def view():
-    allData = mongo.db.posts.find(
-        {'user': session['info']['email']}).sort('time', -1)
-    if request.method == "GET":
-        return render_template("view.html", allPosts=allData)
-    elif request.method == "POST":
-        global searchData
-        for item in request.form:
-            if request.form['search'] != "":
-                search = request.form['search']
-                searchData = searching(search)
-                return redirect("/viewSearch")
-            else:
-                return redirect("/home")
-
-
-def searching(search):
-    allData = mongo.db.posts.find(
-        {'user': session['info']['email']}).sort('time', -1)
-    newdata = []
-    for data in allData:
-        data['title'] = data['title'].lower()
-        newdata.append(data)
-    searchResults = []
-    for data in newdata:
-        if data['title'] == search.lower():
-            searchResults.append(data)
-    return searchResults
-
-
-@fl.route("/viewsearch", methods=["GET", "POST"])
-def viewSearch():
-    if request.method == "GET":
-        return render_template("viewsearch.html", allSearches=searchData)
-    if request.method == "POST":
-        return redirect("/view")
-
-
 @fl.route("/create", methods=["GET", "POST"])
 def create():
     if request.method == "GET":
