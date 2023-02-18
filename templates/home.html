@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block scripts %}
+{{super()}}
+{{ moment.include_moment() }}
+{% endblock %}
+{% block content %}
+{{ super() }}
+<div class="jumbotron"
+    style="background-image: url('https://99designs-blog.imgix.net/blog/wp-content/uploads/2018/12/Gradient_builder_2.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h1>{{session["info"]["firstName"]}}</h1>
+                <p>{{session["info"]["lastName"]}}'s Posts</p>
+            </div>
+            <div class="col-md-6 text-right" style="margin-top: 25px">
+                <p>Login Time: {{moment(session["info"]["time"]).fromNow(refresh = True)}}</p>
+                <a href="/logout" class="btn btn-default">Log Out</a>
+                <p style="margin-top: 10px">{{moment(session["info"]["time"]).format("LL")}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="flashMsg">
+                {% for msg in get_flashed_messages() %}
+                <div class="alert alert-success alert-dismissible">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>{{msg}}</strong>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .form-control {
+        margin-bottom: 15px;
+    }
+</style>
+<div class="container">
+    <form class="form-group" method="POST">
+        <a href="/add" class="btn btn-default btn-lg">Create New</a>
+        <a href="/view" class="btn btn-default btn-lg">View</a>
+        <a href="/upload" class="btn btn-default btn-lg">Upload</a>
+    </form>
+</div>
+{% endblock %}
