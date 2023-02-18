@@ -52,6 +52,7 @@ Home
                 <div class="card-body">
                     <h2 class="card-title">{{signUp["subject"]}}: {{signUp["title"]}}</h2>
                     <p class="card-text">{{signUp["description"]}}</p>
+                    <p class="card-text">Max Capacity: {{signUp["max-capacity"]}}</p>
                     <h5 class="card-title">{{signUp["location"]}}, {{signUp["studytime"]|format_time}}, {{signUp["date"]|format_date}}</h5>
                     <p class="card-text">Posted by {{signUp["name"]}}</p>
                     <a href="/optout/{{signUp['_id']}}" class="btn btn-danger">Not going</a>

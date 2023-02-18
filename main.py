@@ -76,24 +76,31 @@ def home():
     if request.method == "GET":
         myPostsQuery = {'user': session['info']['email']}
         signUpQuery = {'signups': {'$in': [ session['info']['email'] ]}}
-        allQuery = { '$and': [ 
-            { '$nor': [ myPostsQuery ] },
-            { '$nor': [ signUpQuery ] }
-        ] }
+        #allQuery = { '$and': [
+        #    { '$nor': [ myPostsQuery ] },
+        #    { '$nor': [ signUpQuery ] }
+        #] }
 
         # all except mine and my sign ups
-        allPosts = mongo.db.posts.find(allQuery).sort('time', -1)
+        # allPosts = mongo.db.posts.find(allQuery).sort('time', -1)
+        allPosts = list(mongo.db.posts.find().sort('time', -1))
+        myPosts = list(mongo.db.posts.find(myPostsQuery).sort('time', -1))
+        mySignUps = list(mongo.db.posts.find(signUpQuery).sort('time', -1))
+
         openPosts = []
 
         for post in allPosts:
-            if post['max-capacity'] < len(post['signups']):
-                openPosts.append(post)
+            if post in myPosts:
+                continue
+            if post in mySignUps:
+                continue
+            if int(post["max-capacity"]) < len(post["signups"]):
+                continue
+            openPosts.append(post)
 
         # only mine
-        myPosts = mongo.db.posts.find(myPostsQuery).sort('time', -1)
 
         # only others that I've signed up for
-        mySignUps = mongo.db.posts.find(signUpQuery).sort('time', -1)
         
         return render_template("home.html", allPosts=openPosts, myPosts=myPosts, mySignUps=mySignUps)
 
@@ -151,7 +158,6 @@ def create():
             subject = request.form["subject"]
             location = request.form["location"]
             description = request.form["description"]
-            minimum = request.form["minimum"]
             maximum = request.form["maximum"]
             signups = []
 
@@ -165,7 +171,6 @@ def create():
             "user": session["info"]["email"],
             "name": session["info"]["firstName"] + " "+ session["info"]["lastName"],
             "time": datetime.utcnow(),
-            "min-capacity": minimum,
             "max-capacity": maximum,
             "signups": signups
         }
