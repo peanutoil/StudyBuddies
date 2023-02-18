@@ -11,13 +11,10 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6">
-                <h1>{{session["info"]["firstName"]}}</h1>
-                <p>{{session["info"]["lastName"]}}'s Posts</p>
+                <h1>{{session["info"]["firstName"]}} {{session["info"]["lastName"]}}</h1>
             </div>
             <div class="col-md-6 text-right" style="margin-top: 25px">
-                <p>Login Time: {{moment(session["info"]["time"]).fromNow(refresh = True)}}</p>
                 <a href="/logout" class="btn btn-default">Log Out</a>
-                <p style="margin-top: 10px">{{moment(session["info"]["time"]).format("LL")}}</p>
             </div>
         </div>
     </div>
@@ -43,9 +40,10 @@
 </style>
 <div class="container">
     <form class="form-group" method="POST">
-        <a href="/add" class="btn btn-default btn-lg">Create New</a>
-        <a href="/view" class="btn btn-default btn-lg">View</a>
-        <a href="/upload" class="btn btn-default btn-lg">Upload</a>
+        <a href="/upload" class="btn btn-default btn-lg">Create Group</a>
+        <!--get this button to the right side-->
+        <input type="text" placeholder="Search.." name="search">
+        <input class="btn btn-default" type="submit" value="Search">
     </form>
 </div>
 {% endblock %}
