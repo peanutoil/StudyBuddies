@@ -1,0 +1,13 @@
+{
+    "_id": {
+      "$oid": "63f13fb34a51fa4760cb905b"
+    },
+      "title": "SewonKim",
+      "location": "bost",
+      "description": "None",
+      "min-capacity": 3,
+      "max-capacity": 5,
+      "studytime": "14:00",
+      "date": "2023-02-18",
+      "user": "s@gmail.com"
+  }  

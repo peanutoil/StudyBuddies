@@ -75,10 +75,15 @@ def home():
         return redirect("/login")
     if request.method == "GET":
         # all except mine and my sign ups
-        allPosts = mongo.db.posts.find().sort('time', -1)
+        allPosts = mongo.db.posts.find({ 'user': {
+            '$not': {
+                '$eq': session['info']['email']
+            }
+        }
+        }).sort('time', -1)
 
         # only mine
-        myPosts = mongo.db.posts.find().sort('time', -1)
+        myPosts = mongo.db.posts.find({'user': session['info']['email']}).sort('time', -1)
 
         # only others that I've signed up for
         mySignUps = mongo.db.posts.find().sort('time', -1)
