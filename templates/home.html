@@ -36,16 +36,17 @@ Home
     </div>
 </div>
 <div class="container">
+    <a href="/create" class="btn btn-light btn-lg">Create Group</a>
     <form class="form-group" method="POST">
-        <a href="/create" class="btn btn-light btn-lg">Create Group</a>
         <!--get this button to the right side-->
         <input type="text" placeholder="Search.." name="search">
         <input class="btn btn-light" type="submit" value="Search">
     </form>
 </div>
 <div class="container">
+    <h1>All Posts</h1>
     <div class="row">
-        {% for post in allPosts %}
+        {% for eachPost in allPosts %}
         <div class="col-sm-6 mb-3 mb-sm-0">
             <div class="card">
                 <div class="card-body">
@@ -54,6 +55,38 @@ Home
                     <h5 class="card-title">{{post["location"]}}, {{post["studytime"]|format_time}}, {{post["date"]|format_date}}</h5>
                     <p class="card-text">Posted by {{post["name"]}}</p>
                     <a href="#" class="btn btn-primary">Sign Up!</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<div class="container">
+    <h1>My Posts</h1>
+    <div class="row">
+        {% for myPost in myPosts %}
+        <div class="col-sm-6 mb-3 mb-sm-0">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">My title treatment</h5>
+                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<div class="container">
+    <h1>My Sign-ups</h1>
+    <div class="row">
+        {% for myPost in myPosts %}
+        <div class="col-sm-6 mb-3 mb-sm-0">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">My title treatment</h5>
+                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
                 </div>
             </div>
         </div>

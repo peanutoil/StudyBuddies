@@ -68,13 +68,17 @@ def login():
             return redirect("/user")
 
 
-@fl.route("/user", methods=["GET"])
-def user():
+@fl.route("/home", methods=["GET", "POST"])
+def home():
     if "info" not in session:
         flash("Error: You must log in before accessing this page.")
         return redirect("/login")
-    allData = mongo.db.posts.find().sort('time', -1)
-    return render_template("home.html", allPosts=allData)
+    if request.method == "GET":
+        allPosts = mongo.db.posts.find().sort('time', -1)
+        myPosts = mongo.db.posts.find().sort('time', -1)
+        mySignUps = mongo.db.posts.find().sort('time', -1)
+        
+        return render_template("home.html", allPosts=allPosts, myPosts=myPosts, mySignUps=mySignUps)
 
 
 @fl.route("/view", methods=["GET", "POST", "SEARCH"])
