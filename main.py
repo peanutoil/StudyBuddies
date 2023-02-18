@@ -148,6 +148,7 @@ def create():
             description = request.form["description"]
             minimum = request.form["minimum"]
             maximum = request.form["maximum"]
+            signups = []
 
         entry = {
             "title": title,
@@ -161,12 +162,18 @@ def create():
             "time": datetime.utcnow(),
             "min-capacity": minimum,
             "max-capacity": maximum,
+            "signups": signups
         }
 
         mongo.db.posts.insert_one(entry)
 
         return redirect("/home")
 
+@fl.route("/signup/<id>")
+def signup(id):
+    mongo.db.posts.update_one( {"_id":ObjectId(id)},{"$push":{'signups':session["info"]["email"]}})
+    flash("Signup successful!")
+    return redirect("/home")
 
 @fl.route("/delete/<id>")
 def delRoute(id):
@@ -176,6 +183,8 @@ def delRoute(id):
     delItem = mongo.db.posts.find_one({'_id': ObjectId(id)})
     mongo.db.posts.delete_one(delItem)
     return redirect("/home")
+
+
 
 
 @fl.route("/logout")

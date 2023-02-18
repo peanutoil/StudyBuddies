@@ -54,7 +54,7 @@ Home
                     <p class="card-text">{{signUp["description"]}}</p>
                     <h5 class="card-title">{{signUp["location"]}}, {{signUp["studytime"]|format_time}}, {{signUp["date"]|format_date}}</h5>
                     <p class="card-text">Posted by {{signUp["name"]}}</p>
-                    <a href="#" class="btn btn-danger">Delete</a>
+                    <a href="#" class="btn btn-danger">Not going</a>
                 </div>
             </div>
         </div>
@@ -72,7 +72,7 @@ Home
                     <p class="card-text">{{myPost["description"]}}</p>
                     <h5 class="card-title">{{myPost["location"]}}, {{myPost["studytime"]|format_time}}, {{myPost["date"]|format_date}}</h5>
                     <p class="card-text">Posted by {{myPost["name"]}}</p>
-                    <a href="#" class="btn btn-danger">Delete</a>
+                    <a href="/delete/{{myPost['_id']}}" class="btn btn-danger">Delete</a>
                 </div>
             </div>
         </div>
