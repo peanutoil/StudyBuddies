@@ -29,7 +29,7 @@ def static_dir(path):
 def register():
     if "info" in session:
         flash("You are already logged in.")
-        return redirect("/home")
+        return redirect("/user")
     if request.method == "GET":
         return render_template("register.html")
     elif request.method == "POST":
@@ -51,7 +51,7 @@ def register():
 def login():
     if "info" in session:
         flash("You are already logged in.")
-        return redirect("/home")
+        return redirect("/user")
     if request.method == "GET":
         return render_template("login.html")
     elif request.method == "POST":
@@ -65,7 +65,7 @@ def login():
         else:
             session["info"] = {'firstName': exist['firstName'], 'lastName': exist['lastName'],
                                'email': exist['email'], 'time': datetime.utcnow()}
-            return redirect("/home")
+            return redirect("/user")
 
 
 @fl.route("/home", methods=["GET", "POST"])
@@ -75,16 +75,61 @@ def home():
         return redirect("/login")
     if request.method == "GET":
         # all except mine and my sign ups
-        allPosts = mongo.db.posts.find().sort('time', -1)
+        allPosts = mongo.db.posts.find({ 'user': {
+            '$not': {
+                '$eq': session['info']['email']
+            }
+        }
+        }).sort('time', -1)
 
         # only mine
-        myPosts = mongo.db.posts.find(
-            {'user': session['info']['email']}).sort('time', -1)
+        myPosts = mongo.db.posts.find({'user': session['info']['email']}).sort('time', -1)
 
         # only others that I've signed up for
-        mySignUps = mongo.db.posts.find().sort('time', -1)
+        query = {"signups": {"$in": [session['info']['email']]}}
+
+        mySignUps = mongo.db.posts.find(query).sort('time', -1)
         
         return render_template("home.html", allPosts=allPosts, myPosts=myPosts, mySignUps=mySignUps)
+
+
+@fl.route("/view", methods=["GET", "POST", "SEARCH"])
+def view():
+    allData = mongo.db.posts.find(
+        {'user': session['info']['email']}).sort('time', -1)
+    if request.method == "GET":
+        return render_template("view.html", allPosts=allData)
+    elif request.method == "POST":
+        global searchData
+        for item in request.form:
+            if request.form['search'] != "":
+                search = request.form['search']
+                searchData = searching(search)
+                return redirect("/viewSearch")
+            else:
+                return redirect("/user")
+
+
+def searching(search):
+    allData = mongo.db.posts.find(
+        {'user': session['info']['email']}).sort('time', -1)
+    newdata = []
+    for data in allData:
+        data['title'] = data['title'].lower()
+        newdata.append(data)
+    searchResults = []
+    for data in newdata:
+        if data['title'] == search.lower():
+            searchResults.append(data)
+    return searchResults
+
+
+@fl.route("/viewsearch", methods=["GET", "POST"])
+def viewSearch():
+    if request.method == "GET":
+        return render_template("viewsearch.html", allSearches=searchData)
+    if request.method == "POST":
+        return redirect("/view")
 
 
 @fl.route("/create", methods=["GET", "POST"])
@@ -103,7 +148,6 @@ def create():
             description = request.form["description"]
             minimum = request.form["minimum"]
             maximum = request.form["maximum"]
-            signups = []
 
         entry = {
             "title": title,
@@ -117,12 +161,11 @@ def create():
             "time": datetime.utcnow(),
             "min-capacity": minimum,
             "max-capacity": maximum,
-            "signups": signups
         }
 
         mongo.db.posts.insert_one(entry)
 
-        return redirect("/home")
+        return redirect("/user")
 
 
 @fl.route("/delete/<id>")
@@ -132,13 +175,8 @@ def delRoute(id):
     flash("Deleted")
     delItem = mongo.db.posts.find_one({'_id': ObjectId(id)})
     mongo.db.posts.delete_one(delItem)
-    return redirect("/home")
+    return redirect("/user")
 
-@fl.route("/signup/<id>")
-def signup(id):
-    mongo.db.posts.update_one( {"_id":ObjectId(id)},{"$push":{'signups':session["info"]["email"]}})
-    flash("Signup successful!")
-    return redirect("/home")
 
 @fl.route("/logout")
 def out():
