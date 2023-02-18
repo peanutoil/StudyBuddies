@@ -25,21 +25,39 @@
     <div class="col-md-4 col-md-offset-4">
         <form method="POST">
             <div class="mb-3">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="title" placeholder="" />
+                <label class="form-label">Title</label>
+                <input type="text" class="form-control" name="title" placeholder="" />
+            </div>
+            <!-- get date and time on the same line as well-->
+            <div class="mb-3">
+                <label class="form-label">Date</label>
+                <input type="date" class="form-control" name="date"/>
+            </div>
+                        <div class="mb-3">
+                <label class="form-label">Time</label>
+                <input type="time" class="form-control" name="time"/>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Course</label>
+                <input type="text" class="form-control" name="subject" placeholder="" />
             </div>
             <div class="mb-3">
-                <label for="subject" class="form-label">Course</label>
-                <input type="text" class="form-control" id="subject" placeholder="" />
+                <label class="form-label">Description</label>
+                <textarea class="form-control" name="description" rows="3"></textarea>
             </div>
             <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
-                <textarea class="form-control" id="description" rows="3"></textarea>
+                <label class="form-label">Location</label>
+                <input type="text" class="form-control" name="location" placeholder="e.g., Bobst Library 5th Floor" />
             </div>
+            <!--get these two on the same line later-->
             <div class="mb-3">
-                <label for="location" class="form-label">Location</label>
-                <input type="text" class="form-control" id="location" placeholder="e.g., Bobst Library 5th Floor" />
+                <label class="form-label">Min Capacity</label>
+                <input type="text" class="form-control" name="minimum" placeholder="e.g., 5" />
+                <label class="form-label">Max Capacity</label>
+                <input type="text" class="form-control" name="maximum" placeholder="e.g., 8"/>
             </div>
+
             <input type="submit" class="form-control btn btn-default" value="Create" />
         </form>
         <a href="/" class="btn btn-default">Go Back</a>

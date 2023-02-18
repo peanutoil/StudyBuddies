@@ -120,17 +120,25 @@ def create():
 
         for item in request.form:
             title = request.form["title"]
+            date = request.form["date"]
+            time = request.form["time"]
             subject = request.form["subject"]
             location = request.form["location"]
             description = request.form["description"]
+            minimum = request.form["minimum"]
+            maximum = request.form["maximum"]
 
         entry = {
             "title": title,
+            "date": date,
+            "time": time,
             "subject": subject,
             "location": location,
             "description": description,
             "user": session["info"]["email"],
-            "time": datetime.utcnow()
+            "time": datetime.utcnow(),
+            "min-capacity": minimum,
+            "max-capacity": maximum,
         }
 
         mongo.db.posts.insert_one(entry)
