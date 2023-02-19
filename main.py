@@ -99,7 +99,7 @@ def home():
                 searchData = searching(search)
                 return redirect("/viewSearch")
             else:
-                return redirect("/user")
+                return redirect("/home")
 
 
 @fl.route("/view", methods=["GET", "POST", "SEARCH"])
