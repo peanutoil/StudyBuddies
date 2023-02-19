@@ -10,13 +10,16 @@ fl.config["SECRET_KEY"] = "RANDOMkey"
 fl.config['MONGO_URI'] = "mongodb://localhost:27017/study-db"
 mongo = PyMongo(fl)
 
+
 @fl.template_filter()
 def format_date(value):
-    value = datetime.strptime(value,"%Y-%m-%d").date()
+    value = datetime.strptime(value, "%Y-%m-%d").date()
     return value.strftime('%m/%d/%y')
+
+
 @fl.template_filter()
 def format_time(value):
-    value = datetime.strptime(value,"%H:%M").time()
+    value = datetime.strptime(value, "%H:%M").time()
     return value.strftime('%I:%M %p')
 
 
@@ -89,7 +92,9 @@ def home():
                 continue
             if int(post["max-capacity"]) < len(post["signups"]):
                 continue
+
             openPosts.append(post)
+
         return render_template("home.html", allPosts=openPosts, myPosts=myPosts, mySignUps=mySignUps)
     elif request.method == "POST":
         global searchData
@@ -99,23 +104,8 @@ def home():
                 searchData = searching(search)
                 return redirect("/viewSearch")
             else:
-                return redirect("/user")
-
-
-@fl.route("/view", methods=["GET", "POST", "SEARCH"])
-def view():
-
-    if request.method == "GET":
-        return render_template("view.html", allPosts=allData)
-    elif request.method == "POST":
-        global searchData
-        for item in request.form:
-            if request.form['search'] != "":
-                search = request.form['search']
-                searchData = searching(search)
-                return redirect("/viewSearch")
-            else:
                 return redirect("/home")
+
 
 def searching(search):
     myPostsQuery = {'user': session['info']['email']}
@@ -149,7 +139,7 @@ def searching(search):
     return searchResults
 
 
-@fl.route("/viewSearch", methods=["GET", "POST"])
+@fl.route("/viewsearch", methods=["GET", "POST"])
 def viewSearch():
     if request.method == "GET":
         return render_template("viewsearch.html", allSearches=searchData)
@@ -182,7 +172,7 @@ def create():
             "location": location,
             "description": description,
             "user": session["info"]["email"],
-            "name": session["info"]["firstName"] + " "+ session["info"]["lastName"],
+            "name": session["info"]["firstName"] + " " + session["info"]["lastName"],
             "time": datetime.utcnow(),
             "max-capacity": maximum,
             "signups": signups
@@ -192,17 +182,23 @@ def create():
 
         return redirect("/home")
 
+
 @fl.route("/signup/<id>")
 def signup(id):
-    mongo.db.posts.update_one( {"_id":ObjectId(id)},{"$push":{'signups':session["info"]["email"]}})
+    mongo.db.posts.update_one({"_id": ObjectId(id)}, {
+                              "$push": {'signups': session["info"]["email"]}})
     flash("Signup successful!")
     return redirect("/home")
 
+
 @fl.route("/optout/<id>")
 def optout(id):
-    mongo.db.posts.update_one({'_id':ObjectId(id)},{'$pull':{'signups':session["info"]["email"]}})
+    mongo.db.posts.update_one({'_id': ObjectId(id)}, {
+                              '$pull': {'signups': session["info"]["email"]}})
     flash("You have opted out of this study session.")
     return redirect("/home")
+
+
 @fl.route("/delete/<id>")
 def delRoute(id):
     # ids are not strings they are ObjectId('')
@@ -211,8 +207,6 @@ def delRoute(id):
     delItem = mongo.db.posts.find_one({'_id': ObjectId(id)})
     mongo.db.posts.delete_one(delItem)
     return redirect("/home")
-
-
 
 
 @fl.route("/logout")

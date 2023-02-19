@@ -1,101 +1,89 @@
 {% extends "base.html" %}
 
 {% block title %}
-Home
+Study Buddies
 {% endblock %}
 
 {% block scripts %}
 {{ moment.include_moment() }}
 {% endblock %}
 
+{% block nav_links %}
+<li class="nav-item">
+    <a class="nav-link" href="/create">Create a study group</a>
+</li>
+{% endblock %}
+
+{% block navbar %}
+<form class="d-flex" role="search" method="POST">
+    <input type="text" class="form-control me-2" placeholder="Search.." aria-label="Search" aria-describedby="search">
+    <button class="btn btn-outline-light" type="button" id="search">Search</button>
+</form>
+{% endblock %}
+
 {% block content %}
-<div class="jumbotron">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <h1>{{session["info"]["firstName"]}} {{session["info"]["lastName"]}}</h1>
+<div class="row">
+    <div class="col-md-12">
+        <div class="flashMsg">
+            {% for msg in get_flashed_messages() %}
+            <div class="alert alert-success alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>{{msg}}</strong>
             </div>
-            <div class="col-md-6 text-right" style="margin-top: 25px">
-                <a href="/logout" class="btn btn-light">Log Out</a>
-            </div>
+            {% endfor %}
         </div>
     </div>
 </div>
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="flashMsg">
-                {% for msg in get_flashed_messages() %}
-                <div class="alert alert-success alert-dismissible">
-                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                    <strong>{{msg}}</strong>
-                </div>
-                {% endfor %}
+<h2>My Sign-ups</h2>
+<div class="row">
+    {% for signUp in mySignUps %}
+    <div class="col-sm-6 mb-3 mb-sm-0">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title">{{signUp["subject"]}}: {{signUp["title"]}}</h2>
+                <p class="card-text">{{signUp["description"]}}</p>
+                <p class="card-text">Max Capacity: {{signUp["max-capacity"]}}</p>
+                <h5 class="card-title">{{signUp["location"]}}, {{signUp["studytime"]|format_time}},
+                    {{signUp["date"]|format_date}}</h5>
+                <p class="card-text">Posted by {{signUp["name"]}}</p>
+                <a href="/optout/{{signUp['_id']}}" class="btn btn-danger">Not going</a>
             </div>
         </div>
     </div>
+    {% endfor %}
 </div>
-<div class="container">
-    <a href="/create" class="btn btn-light btn-lg">Create Group</a>
-    <form class="form-group" method="POST">
-        <!--get this button to the right side-->
-        <input type="text" placeholder="Search.." name="search">
-        <input class="btn btn-light" type="submit" value="Search">
-    </form>
-</div>
-<div class="container">
-    <h1>My Sign-ups</h1>
-    <div class="row">
-        {% for signUp in mySignUps %}
-        <div class="col-sm-6 mb-3 mb-sm-0">
-            <div class="card">
-                <div class="card-body">
-                    <h2 class="card-title">{{signUp["subject"]}}: {{signUp["title"]}}</h2>
-                    <p class="card-text">{{signUp["description"]}}</p>
-                    <p class="card-text">Max Capacity: {{signUp["max-capacity"]}}</p>
-                    <h5 class="card-title">{{signUp["location"]}}, {{signUp["studytime"]|format_time}}, {{signUp["date"]|format_date}}</h5>
-                    <p class="card-text">Posted by {{signUp["name"]}}</p>
-                    <a href="/optout/{{signUp['_id']}}" class="btn btn-danger">Not going</a>
-                </div>
+<h2>My Posts</h2>
+<div class="row">
+    {% for myPost in myPosts %}
+    <div class="col-sm-6 mb-3 mb-sm-0">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title">{{myPost["subject"]}}: {{myPost["title"]}}</h2>
+                <p class="card-text">{{myPost["description"]}}</p>
+                <h5 class="card-title">{{myPost["location"]}}, {{myPost["studytime"]|format_time}},
+                    {{myPost["date"]|format_date}}</h5>
+                <p class="card-text">Posted by {{myPost["name"]}}</p>
+                <a href="/delete/{{myPost['_id']}}" class="btn btn-danger">Delete</a>
             </div>
         </div>
-        {% endfor %}
     </div>
+    {% endfor %}
 </div>
-<div class="container">
-    <h1>My Posts</h1>
-    <div class="row">
-        {% for myPost in myPosts %}
-        <div class="col-sm-6 mb-3 mb-sm-0">
-            <div class="card">
-                <div class="card-body">
-                    <h2 class="card-title">{{myPost["subject"]}}: {{myPost["title"]}}</h2>
-                    <p class="card-text">{{myPost["description"]}}</p>
-                    <h5 class="card-title">{{myPost["location"]}}, {{myPost["studytime"]|format_time}}, {{myPost["date"]|format_date}}</h5>
-                    <p class="card-text">Posted by {{myPost["name"]}}</p>
-                    <a href="/delete/{{myPost['_id']}}" class="btn btn-danger">Delete</a>
-                </div>
+<h2>All Posts</h2>
+<div class="row">
+    {% for post in allPosts %}
+    <div class="col-sm-6 mb-3 mb-sm-0">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title">{{post["subject"]}}: {{post["title"]}}</h2>
+                <p class="card-text">{{post["description"]}}</p>
+                <h5 class="card-title">{{post["location"]}}, {{post["studytime"]|format_time}},
+                    {{post["date"]|format_date}}</h5>
+                <p class="card-text">Posted by {{post["name"]}}</p>
+                <a href="/signup/{{post['_id']}}" class="btn btn-primary">Sign Up!</a>
             </div>
         </div>
-        {% endfor %}
     </div>
-</div>
-<div class="container">
-    <h1>All Posts</h1>
-    <div class="row">
-        {% for post in allPosts %}
-        <div class="col-sm-6 mb-3 mb-sm-0">
-            <div class="card">
-                <div class="card-body">
-                    <h2 class="card-title">{{post["subject"]}}: {{post["title"]}}</h2>
-                    <p class="card-text">{{post["description"]}}</p>
-                    <h5 class="card-title">{{post["location"]}}, {{post["studytime"]|format_time}}, {{post["date"]|format_date}}</h5>
-                    <p class="card-text">Posted by {{post["name"]}}</p>
-                    <a href="/signup/{{post['_id']}}" class="btn btn-primary">Sign Up!</a>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
+    {% endfor %}
 </div>
 {% endblock %}

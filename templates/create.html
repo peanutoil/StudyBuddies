@@ -4,62 +4,54 @@ Create a study group
 {% endblock %}
 
 {% block content %}
-<div class="jumbotron">
-    <div class="container">
-        <h1>Create a study group</h1>
-    </div>
-</div>
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="flashMsg">
-                {% for msg in get_flashed_messages() %}
-                <div class="alert alert-success alert-dismissible">
-                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                    <strong>{{msg}}</strong>
-                </div>
-                {% endfor %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="flashMsg">
+            {% for msg in get_flashed_messages() %}
+            <div class="alert alert-success alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>{{msg}}</strong>
             </div>
+            {% endfor %}
         </div>
     </div>
 </div>
-<div class="container">
-    <div class="col-md-4 col-md-offset-4">
-        <form method="POST">
-            <div class="mb-3">
-                <label class="form-label">Title</label>
-                <input type="text" class="form-control" name="title" placeholder="" required />
-            </div>
-            <!-- get date and time on the same line as well-->
-            <div class="mb-3">
-                <label class="form-label">Date</label>
-                <input type="date" class="form-control" name="date" required/>
-            </div>
-                        <div class="mb-3">
-                <label class="form-label">Time</label>
-                <input type="time" class="form-control" name="time" required/>
-            </div>
+<div class="col-md-4 col-md-offset-4">
+    <form method="POST">
+        <div class="mb-3">
+            <label class="form-label">Title</label>
+            <input type="text" class="form-control" name="title" placeholder="" required />
+        </div>
+        <!-- get date and time on the same line as well-->
+        <div class="mb-3">
+            <label class="form-label">Date</label>
+            <input type="date" class="form-control" name="date" required />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Time</label>
+            <input type="time" class="form-control" name="time" required />
+        </div>
 
-            <div class="mb-3">
-                <label class="form-label">Course</label>
-                <input type="text" class="form-control" name="subject" placeholder="" required />
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Description</label>
-                <textarea class="form-control" name="description" rows="3"></textarea>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Location</label>
-                <input type="text" class="form-control" name="location" placeholder="e.g., Bobst Library 5th Floor" required />
-            </div>
-            <!--get these two on the same line later-->
-            <div class="mb-3">
-                <label class="form-label">Max Capacity</label>
-                <input type="text" class="form-control" name="maximum" placeholder="e.g., 8" required />
-            </div>
-            <input type="submit" class="form-control btn btn-light" value="Create" />
-        </form>
-        <a href="/" class="btn btn-light">Go Back</a>
-    </div>
+        <div class="mb-3">
+            <label class="form-label">Course</label>
+            <input type="text" class="form-control" name="subject" placeholder="" required />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea class="form-control" name="description" rows="3"></textarea>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Location</label>
+            <input type="text" class="form-control" name="location" placeholder="e.g., Bobst Library 5th Floor"
+                required />
+        </div>
+        <!--get these two on the same line later-->
+        <div class="mb-3">
+            <label class="form-label">Max Capacity</label>
+            <input type="text" class="form-control" name="maximum" placeholder="e.g., 8" required />
+        </div>
+        <input type="submit" class="form-control btn btn-light" value="Create" />
+    </form>
+    <a href="/" class="btn btn-light">Go Back</a>
 </div>
 {% endblock %}
